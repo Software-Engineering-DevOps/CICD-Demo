@@ -1,0 +1,65 @@
+body {
+    background: #0f0f0f;
+    color: #eee;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px;
+    text-align: center;
+}
+
+.pipeline {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.step {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    margin: 10px;
+    border: 2px solid #444;
+    text-align: left;
+}
+
+.step .desc {
+    font-size: 0.9em;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+.github { border-color: #6e5494; }
+.actions { border-color: #2088ff; }
+.render { border-color: #46e3b7; }
+
+.arrow {
+    margin: 10px;
+    font-size: 24px;
+    align-self: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.steps {
+    text-align: left;
+    margin-top: 30px;
+    color: #ccc;
+}
+
+.steps li {
+    margin-bottom: 10px;
+}

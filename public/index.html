@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Pipeline Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Update 1</h1>
+        <h1>🚀 CI/CD Pipeline Demonstration</h1>
+        <p>This page visually explains the CI/CD process:</p>
+
+        <div class="pipeline">
+            <div class="step github">
+                <strong>Step 1:</strong> GitHub Push<br>
+                <span class="desc">Developer pushes code to the GitHub repository (main branch).</span>
+            </div>
+            <div class="arrow">➡️</div>
+            <div class="step actions">
+                <strong>Step 2:</strong> GitHub Actions<br>
+                <span class="desc">The workflow runs: checkout code, install dependencies, optionally run tests.</span>
+            </div>
+            <div class="arrow">➡️</div>
+            <div class="step render">
+                <strong>Step 3:</strong> Render Deploy<br>
+                <span class="desc">GitHub Actions triggers the Render Deploy Hook → Render pulls the latest code and redeploys automatically.</span>
+            </div>
+        </div>
+
+        <button id="checkStatus">Check Server Status</button>
+        <p id="output"></p>
+
+        <h2>Step-by-Step Process</h2>
+        <ol class="steps">
+            <li><strong>Developer Push:</strong> Make changes locally and push to <code>main</code> branch.</li>
+            <li><strong>GitHub Actions:</strong> The workflow triggers automatically on push.</li>
+            <li><strong>Build & Install:</strong> Dependencies are installed, optional tests run.</li>
+            <li><strong>Trigger Render Deploy:</strong> The workflow sends a POST request to Render Deploy Hook.</li>
+            <li><strong>Render Deployment:</strong> Render pulls latest code, installs dependencies, and redeploys the web service.</li>
+            <li><strong>Live Website:</strong> Your site is updated automatically and visible to users.</li>
+        </ol>
+
+        <p id="last-update" style="color: yellow; font-weight: bold;"></p>
+    </div>
+
+    <script>
+        // Check server status button
+        document.getElementById("checkStatus").addEventListener("click", async () => {
+            const res = await fetch("/api/status");
+            const data = await res.json();
+            document.getElementById("output").textContent =
+                "Server Response: " + JSON.stringify(data, null, 2);
+
+            // Display last deployed timestamp dynamically
+            document.getElementById("last-update").textContent =
+                "Last deployed: " + new Date(data.timestamp).toLocaleString();
+        });
+    </script>
+</body>
+</html>
