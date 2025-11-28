@@ -4,10 +4,10 @@
   "description": "CI/CD Demo with QA Approval",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "npx jest",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "start": "node server.js"
+    "lint": "npx eslint .",
+    "format": "npx prettier --write ."
   },
   "keywords": [],
   "author": "",
