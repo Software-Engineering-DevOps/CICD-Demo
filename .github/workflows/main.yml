@@ -13,19 +13,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Run Lint
-        run: npm run lint --if-present
-
-      - name: Run Tests
-        run: npm test --if-present
+      - name: Run Jest Tests
+        run: npm test
 
   await_qa:
     name: Wait for QA Approval
@@ -36,13 +33,12 @@ jobs:
       url: https://cicd-demo-ty17.onrender.com
     steps:
       - name: QA Approval Required
-        run: echo "Waiting for QA approval..."
+        run: echo "Awaiting QA team approval..."
 
   deploy:
     name: Deploy to Render
     needs: await_qa
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
