@@ -1,4 +1,4 @@
-name: Deploy to Render
+name: CI + QA + Deploy to Render
 
 on:
   push:
@@ -6,22 +6,48 @@ on:
       - main
 
 jobs:
-  deploy:
+  test:
+    name: Run Tests (QA Checks)
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Trigger Render Deploy
-      run: curl -X POST "$RENDER_DEPLOY_HOOK"
-      env:
-        RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+      - name: Run Lint
+        run: npm run lint --if-present
+
+      - name: Run Tests
+        run: npm test --if-present
+
+  await_qa:
+    name: Wait for QA Approval
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://cicd-demo-ty17.onrender.com
+    steps:
+      - name: QA Approval Required
+        run: echo "Waiting for QA approval..."
+
+  deploy:
+    name: Deploy to Render
+    needs: await_qa
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Render Deploy
+        run: curl -X POST "$RENDER_DEPLOY_HOOK"
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
