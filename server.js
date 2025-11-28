@@ -1,18 +1,25 @@
 const express = require('express');
 const path = require('path');
+
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/status', (req, res) => {
   res.json({
-    status: "success",
-    message: "CI/CD Pipeline Demo Server Running",
-    timestamp: new Date().toISOString()
+    status: 'success',
+    message: 'CI/CD Pipeline Demo Server Running',
+    timestamp: new Date().toISOString(),
   });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+// Export the app for testing
+module.exports = app;
+
+// Start server only if file is run directly
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
