@@ -6,8 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-  "test": "npx jest --force-exit",
-  "format": "npx prettier --write ."
+    "test": "npx --no-install jest --force-exit",
+    "format": "npx prettier --write ."
   },
   "dependencies": {
     "express": "^5.1.0"

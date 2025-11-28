@@ -9,14 +9,14 @@ app.get('/api/status', (req, res) => {
   res.json({
     status: 'success',
     message: 'CI/CD Pipeline Demo Server Running',
-    timestamp: new Date().toISOString(),
+    timestamp: new Date().toISOString()
   });
 });
 
-// Export the app for testing
+// Export app for tests
 module.exports = app;
 
-// Start server only if file is run directly
+// Start server only if run directly
 if (require.main === module) {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
