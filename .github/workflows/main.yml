@@ -19,10 +19,13 @@ jobs:
           node-version: 18
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Fix Jest permission
+        run: chmod +x ./node_modules/.bin/jest
 
       - name: Run Jest Tests
-        run: npx jest --force-exit
+        run: npm test
 
   await_qa:
     name: Wait for QA Approval
