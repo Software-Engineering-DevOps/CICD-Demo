@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Run Jest Tests
-        run: npm test
+        run: npx jest --force-exit
 
   await_qa:
     name: Wait for QA Approval
