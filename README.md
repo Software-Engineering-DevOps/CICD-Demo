@@ -1,4 +1,6 @@
-﻿# CICD-Demo
+TRIAL QA
+ 
+ # CICD-Demo
 📘 README.md – CI/CD Express.js Demo
 🚀 CI/CD Pipeline Demo (Express.js + GitHub Actions + Render)
 
@@ -211,3 +213,4 @@ Real-time CI/CD status indicators on the landing page
 
 
 MIT License. Free to use and modify.
+
