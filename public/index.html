@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+        </label>
+    </div>
+
     <div class="container">
-        <h1>🚀 CI/CD Pipeline Demonstration</h1>
+        <h1> CI/CD Pipeline Demonstration</h1>
         <p>This page visually explains the CI/CD process from code push to live deployment.</p>
 
         <div class="pipeline">
@@ -31,22 +38,75 @@
         <button id="checkStatus">Check Server Status</button>
         <pre id="output"></pre>
 
-        <div class="steps-container">
-            <h2>Step-by-Step Process</h2>
-            <ol class="steps">
-                <li><strong>Developer Push:</strong> Push to <code>main</code>.</li>
-                <li><strong>GitHub Actions:</strong> Workflow triggers automatically.</li>
-                <li><strong>Build & Install:</strong> Dependencies installed, tests run.</li>
-                <li><strong>Trigger Render Deploy:</strong> POST request sent to Render hook.</li>
-                <li><strong>Render Deployment:</strong> Application is redeployed with new changes.</li>
-                <li><strong>Live Website:</strong> Updated and available to users.</li>
-            </ol>
+        <div class="content-grid">
+            <div class="steps-container">
+                <h2>Step-by-Step Process</h2>
+                <ol class="steps">
+                    <li><strong>Developer Push:</strong> Push to <code>main</code>.</li>
+                    <li><strong>GitHub Actions:</strong> Workflow triggers automatically.</li>
+                    <li><strong>Build & Install:</strong> Dependencies installed, tests run.</li>
+                    <li><strong>Trigger Render Deploy:</strong> POST request sent to Render hook.</li>
+                    <li><strong>Render Deployment:</strong> Application is redeployed with new changes.</li>
+                    <li><strong>Live Website:</strong> Updated and available to users.</li>
+                </ol>
+            </div>
+
+            <div class="features-container">
+                <h2>Features</h2>
+                <ul class="features">
+                    <li>🖥️ Simple Express.js server</li>
+                    <li>📄 Static landing page</li>
+                    <li>🤖 Automated CI/CD pipeline</li>
+                    <li>☁️ Deployment to Render</li>
+                    <li>✅ Integrated testing</li>
+                </ul>
+            </div>
         </div>
+
+        <div class="tech-container">
+            <h2>Technologies Used</h2>
+            <div class="tech-icons">
+                <span><img src="https://img.icons8.com/color/48/000000/nodejs.png" alt="Node.js"/> Node.js</span>
+                <span><img src="https://img.icons8.com/color/48/000000/express.png" alt="Express.js"/> Express.js</span>
+                <span><img src="https://img.icons8.com/color/48/000000/html-5.png" alt="HTML5"/> HTML5</span>
+                <span><img src="https://img.icons8.com/color/48/000000/css3.png" alt="CSS3"/> CSS3</span>
+                <span><img src="https://img.icons8.com/color/48/000000/javascript.png" alt="JavaScript"/> JavaScript</span>
+                <span><img src="https://img.icons8.com/color/48/000000/github.png" alt="GitHub"/> GitHub</span>
+            </div>
+        </div>
+
 
         <p id="last-update"></p>
     </div>
 
     <script>
+        // Theme switcher
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (currentTheme === 'light') {
+                toggleSwitch.checked = true;
+            }
+        }
+
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+            else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        toggleSwitch.addEventListener('change', switchTheme, false);
+
+
+        // Server status checker
         document.getElementById('checkStatus').addEventListener('click', async () => {
             const outputElement = document.getElementById('output');
             const lastUpdateElement = document.getElementById('last-update');
