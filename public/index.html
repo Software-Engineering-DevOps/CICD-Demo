@@ -8,53 +8,61 @@
 </head>
 <body>
     <div class="container">
-        <h1>Trial for CICD Pipeline tes</h1>
         <h1>🚀 CI/CD Pipeline Demonstration</h1>
-        <p>This page visually explains the CI/CD process:</p>
+        <p>This page visually explains the CI/CD process from code push to live deployment.</p>
 
         <div class="pipeline">
             <div class="step github">
-                <strong>Step 1:</strong> GitHub Push<br />
+                <strong>Step 1: GitHub Push</strong>
                 <span class="desc">Developer pushes code to the GitHub repository (main branch).</span>
             </div>
             <div class="arrow">➡️</div>
             <div class="step actions">
-                <strong>Step 2:</strong> GitHub Actions<br />
-                <span class="desc">The workflow runs: checkout code, install dependencies, optionally run tests.</span>
+                <strong>Step 2: GitHub Actions</strong>
+                <span class="desc">The workflow runs: checks out code, installs dependencies, and runs tests.</span>
             </div>
             <div class="arrow">➡️</div>
             <div class="step render">
-                <strong>Step 3:</strong> Render Deploy<br />
-                <span class="desc">GitHub Actions triggers the Render Deploy Hook → Render pulls the latest code and redeploys automatically.</span>
+                <strong>Step 3: Render Deploy</strong>
+                <span class="desc">GitHub Actions triggers a Render Deploy Hook, and Render redeploys the app.</span>
             </div>
         </div>
 
         <button id="checkStatus">Check Server Status</button>
-        <p id="output"></p>
+        <pre id="output"></pre>
 
-        <h2>Step-by-Step Process</h2>
-        <ol class="steps">
-            <li><strong>Developer Push:</strong> Push to <code>main</code>.</li>
-            <li><strong>GitHub Actions:</strong> Workflow triggers.</li>
-            <li><strong>Build & Install:</strong> Dependencies installed, tests run.</li>
-            <li><strong>Trigger Render Deploy:</strong> POST request to Render hook.</li>
-            <li><strong>Render Deployment:</strong> App redeployed.</li>
-            <li><strong>Live Website:</strong> Updated automatically.</li>
-        </ol>
+        <div class="steps-container">
+            <h2>Step-by-Step Process</h2>
+            <ol class="steps">
+                <li><strong>Developer Push:</strong> Push to <code>main</code>.</li>
+                <li><strong>GitHub Actions:</strong> Workflow triggers automatically.</li>
+                <li><strong>Build & Install:</strong> Dependencies installed, tests run.</li>
+                <li><strong>Trigger Render Deploy:</strong> POST request sent to Render hook.</li>
+                <li><strong>Render Deployment:</strong> Application is redeployed with new changes.</li>
+                <li><strong>Live Website:</strong> Updated and available to users.</li>
+            </ol>
+        </div>
 
-        <p id="last-update" style="color: yellow; font-weight: bold"></p>
+        <p id="last-update"></p>
     </div>
 
     <script>
         document.getElementById('checkStatus').addEventListener('click', async () => {
-            const res = await fetch('/api/status');
-            const data = await res.json();
+            const outputElement = document.getElementById('output');
+            const lastUpdateElement = document.getElementById('last-update');
 
-            document.getElementById('output').textContent =
-                'Server Response: ' + JSON.stringify(data, null, 2);
+            outputElement.textContent = 'Loading...';
 
-            document.getElementById('last-update').textContent =
-                'Last deployed: ' + new Date(data.timestamp).toLocaleString();
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+
+                outputElement.textContent = JSON.stringify(data, null, 2);
+                lastUpdateElement.textContent = 'Last deployed: ' + new Date(data.timestamp).toLocaleString();
+            } catch (error) {
+                outputElement.textContent = 'Error fetching server status.';
+                console.error('Error:', error);
+            }
         });
     </script>
 </body>
